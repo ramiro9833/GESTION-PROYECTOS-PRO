@@ -14,8 +14,11 @@ model User {
   email     String    @unique
   password  String
   name      String
-  role      String    // 'ADMIN', 'PRODUCT_OWNER', 'DEVELOPER', 'STAKEHOLDER'
-  projects  Project[] // Proyectos asignados o creados
+  phone     String?   // Nuevo: Teléfono
+  city      String?   // Nuevo: Ciudad
+  avatar    String?   // Nuevo: Ruta de la foto de perfil
+  role      String    @default("DEVELOPER")
+  projects  Project[]
 }
 
 model Project {

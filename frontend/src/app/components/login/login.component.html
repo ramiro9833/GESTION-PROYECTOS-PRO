@@ -1,0 +1,33 @@
+<div class="login-container d-flex align-items-center justify-content-center">
+  <div class="card login-card shadow-lg animate__animated animate__fadeIn">
+    <div class="card-body p-5">
+      <div class="text-center mb-4">
+        <i class="bi bi-person-circle display-1 text-primary"></i>
+        <h2 class="fw-bold mt-2">Bienvenido</h2>
+        <p class="text-muted">Gestión de Proyectos PRO</p>
+      </div>
+
+      <form (submit)="onLogin($event)">
+        <div class="mb-3">
+          <label class="form-label">Correo Electrónico</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+            <input type="email" [(ngModel)]="loginData.email" name="email" class="form-control" placeholder="admin@gestion.com" required>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+            <input type="password" [(ngModel)]="loginData.password" name="password" class="form-control" placeholder="********" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 btn-lg btn-login transition-all">
+          Iniciar Sesión
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
