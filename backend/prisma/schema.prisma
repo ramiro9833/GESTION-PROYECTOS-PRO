@@ -1,0 +1,38 @@
+// backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String
+  role      String    // 'ADMIN', 'PRODUCT_OWNER', 'DEVELOPER', 'STAKEHOLDER'
+  projects  Project[] // Proyectos asignados o creados
+}
+
+model Project {
+  id           Int           @id @default(autoincrement())
+  name         String
+  description  String?
+  createdAt    DateTime      @default(now())
+  ownerId      Int
+  owner        User          @relation(fields: [ownerId], references: [id])
+  requirements Requirement[]
+}
+
+model Requirement {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  priority    String   @default("LOW") // 'HIGH', 'MEDIUM', 'LOW'
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+}
