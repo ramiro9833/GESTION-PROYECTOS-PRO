@@ -7,6 +7,5 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' }, // Si entras a la raíz, te manda al login
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: '**', redirectTo: 'login' }, // Cualquier ruta desconocida vuelve al login
   { path: 'register', component: RegisterComponent }
 ];

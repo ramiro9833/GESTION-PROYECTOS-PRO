@@ -8,6 +8,11 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Post('login')
+  async login(@Body() credentials: any) {
+    return this.authService.login(credentials);
+  }
+
   @Post('register')
   @UseInterceptors(FileInterceptor('avatar', {
     storage: diskStorage({
@@ -19,10 +24,9 @@ export class AuthController {
     }),
   }))
   async register(@UploadedFile() file: Express.Multer.File, @Body() body: any) {
-    // Aquí recibimos todos los datos (tel, ciudad, etc.) y la ruta del archivo
     return this.authService.register({
       ...body,
-      avatar: file ? file.path : null,
+      avatar: file ? file.path : null
     });
   }
 }

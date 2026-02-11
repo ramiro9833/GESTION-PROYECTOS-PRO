@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms'; // Asegúrate de importar NgForm
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 
@@ -8,11 +8,18 @@ import { Router, RouterModule } from '@angular/router';
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent {
-  user = { name: '', email: '', phone: '', city: '', password: '' };
+  user = { 
+    name: '', 
+    email: '', 
+    phone: '', 
+    city: 'Los Mochis', 
+    password: '',
+    role: 'DEVELOPER' 
+  };
+  
   selectedFile: File | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -21,37 +28,28 @@ export class RegisterComponent {
     this.selectedFile = event.target.files[0];
   }
 
-  onRegister(event: Event) {
-    event.preventDefault();
+  onRegister(form: NgForm) {
+    if (form.invalid) return;
 
-    // VALIDACIÓN: Teléfono de 10 dígitos (Ingeniería de Software básica)
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(this.user.phone)) {
-      alert('El teléfono debe contener exactamente 10 números.');
-      return;
-    }
-
-    // FormData es necesario para enviar archivos físicos
     const formData = new FormData();
-    formData.append('name', this.user.name);
-    formData.append('email', this.user.email);
-    formData.append('password', this.user.password);
-    formData.append('phone', this.user.phone);
-    formData.append('city', this.user.city);
+    Object.keys(this.user).forEach(key => {
+      formData.append(key, (this.user as any)[key]);
+    });
     
     if (this.selectedFile) {
       formData.append('avatar', this.selectedFile);
     }
 
     this.authService.register(formData).subscribe({
-      next: (res) => {
-        alert('Registro exitoso. ¡Bienvenido!');
+      next: (res: any) => {
+        // Guardar todos los datos para evitar el 'undefined'
+        localStorage.setItem('user_name', res.user.name);
+        localStorage.setItem('user_role', res.user.role);
+        localStorage.setItem('user_city', res.user.city);
+        localStorage.setItem('user_avatar', res.user.avatar || '');
         this.router.navigate(['/dashboard']);
       },
-      error: (err) => {
-        console.error(err);
-        alert('Error al registrar usuario. Revisa que el correo no esté duplicado.');
-      }
+      error: (err: any) => alert('Error en el registro')
     });
   }
 }

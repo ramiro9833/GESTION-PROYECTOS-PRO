@@ -1,36 +1,69 @@
 <div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow-lg border-0">
-        <div class="card-body p-5">
-          <h2 class="text-center mb-4 fw-bold">Registro de Usuario</h2>
-          <form (submit)="onRegister($event)">
-            <div class="mb-3">
-              <label class="form-label">Foto de Perfil</label>
-              <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
-            </div>
-            <div class="mb-3">
-              <input type="text" [(ngModel)]="user.name" name="name" class="form-control" placeholder="Nombre completo" required>
-            </div>
-            <div class="mb-3">
-              <input type="email" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Correo electrónico" required>
-            </div>
-            <div class="mb-3">
-              <input type="tel" [(ngModel)]="user.phone" name="phone" class="form-control" placeholder="Teléfono (10 dígitos)" required>
-            </div>
-            <div class="mb-3">
-              <input type="text" [(ngModel)]="user.city" name="city" class="form-control" placeholder="Ciudad" required>
-            </div>
-            <div class="mb-3">
-              <input type="password" [(ngModel)]="user.password" name="password" class="form-control" placeholder="Contraseña" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">REGISTRARSE Y EMPEZAR</button>
-          </form>
-          <div class="text-center mt-3">
-            <a routerLink="/login" class="text-decoration-none">¿Ya tienes cuenta? Inicia sesión</a>
+  <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px; border-radius: 15px;">
+    <div class="card-body p-4 p-md-5">
+      <h2 class="text-center fw-bold mb-4 text-primary">Registro ERP Pro</h2>
+      
+      <form #regForm="ngForm" (ngSubmit)="onRegister(regForm)">
+        
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">Nombre Completo</label>
+            <input type="text" name="name" [(ngModel)]="user.name" class="form-control" placeholder="Ej: Ramiro Flores" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">Correo Electrónico</label>
+            <input type="email" name="email" [(ngModel)]="user.email" class="form-control" placeholder="correo@ejemplo.com" required email>
           </div>
         </div>
-      </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-bold text-secondary">Foto de Perfil</label>
+          <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">Ciudad (Sinaloa)</label>
+            <select name="city" [(ngModel)]="user.city" class="form-select" required>
+              <option value="Los Mochis">Los Mochis</option>
+              <option value="Culiacán">Culiacán</option>
+              <option value="Mazatlán">Mazatlán</option>
+              <option value="Guasave">Guasave</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">Rol en el Sistema</label>
+            <select name="role" [(ngModel)]="user.role" class="form-select" required>
+              <option value="ADMIN">Administrador</option>
+              <option value="DEVELOPER">Desarrollador</option>
+              <option value="MANAGER">Gerente</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">Teléfono</label>
+            <input type="tel" name="phone" [(ngModel)]="user.phone" class="form-control" 
+                   pattern="[0-9]{10}" placeholder="6681234567" required #tel="ngModel">
+            <div *ngIf="tel.invalid && tel.touched" class="text-danger small">10 dígitos necesarios.</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-bold">Contraseña</label>
+            <input type="password" name="password" [(ngModel)]="user.password" class="form-control" 
+                   placeholder="********" required minlength="6">
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="regForm.invalid" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">
+          CREAR CUENTA Y EMPEZAR
+        </button>
+
+        <div class="text-center mt-3">
+          <a routerLink="/login" class="text-decoration-none small text-muted">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
+      </form>
     </div>
   </div>
 </div>
