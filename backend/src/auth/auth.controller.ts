@@ -26,7 +26,7 @@ export class AuthController {
   async register(@UploadedFile() file: Express.Multer.File, @Body() body: any) {
     return this.authService.register({
       ...body,
-      avatar: file ? file.path : null
+      avatar: file ? file.path : null,
     });
   }
 }

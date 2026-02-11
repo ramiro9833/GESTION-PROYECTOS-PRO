@@ -12,8 +12,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  
+  showPassword = false;
   loginData = { email: '', password: '' };
-
+  
   constructor(private authService: AuthService, private router: Router) {}
 
   // Cambia el parámetro de (event: Event) a (form: NgForm)
@@ -31,5 +33,9 @@ export class LoginComponent {
         alert('Credenciales incorrectas');
       }
     });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }

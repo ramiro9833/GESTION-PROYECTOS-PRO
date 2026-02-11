@@ -1,40 +1,78 @@
-<div class="container py-5">
-  <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px; border-radius: 15px;">
-    <div class="card-body p-4 p-md-5">
-      <h2 class="text-center fw-bold mb-4 text-primary">Registro ERP Pro</h2>
-      
-      <form #regForm="ngForm" (ngSubmit)="onRegister(regForm)">
+<div class="bg-mesh min-h-screen flex items-center justify-center p-4 font-['Inter']">
+  <div class="w-full max-w-[650px] flex flex-col items-center animate__animated animate__fadeIn">
+    
+    <div class="mb-6 flex flex-col items-center">
+      <h1 class="text-[#0e182a] text-2xl font-bold tracking-tight uppercase">ERP SYSTEM</h1>
+    </div>
+
+    <div class="w-full bg-white border border-[#0e182a]/10 rounded-xl shadow-xl p-6 md:p-10">
+      <div class="text-center mb-8">
+        <h2 class="text-[#0e182a] text-2xl font-bold leading-tight">Crear cuenta nueva</h2>
+        <p class="text-slate-500 text-sm mt-2">Completa los datos para darte de alta en el sistema</p>
+      </div>
+
+      <div class="flex justify-center mb-8" *ngIf="imagePreview">
+        <div class="relative">
+          <img [src]="imagePreview" class="w-24 h-24 rounded-full object-cover border-4 border-[#0e182a]/5 shadow-md">
+          <div class="absolute -bottom-1 -right-1 bg-green-500 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center">
+            <span class="material-symbols-outlined text-white text-[14px]">check</span>
+          </div>
+        </div>
+      </div>
+
+      <form #regForm="ngForm" (ngSubmit)="onRegister(regForm)" class="space-y-5">
         
-
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label class="form-label small fw-bold">Nombre Completo</label>
-            <input type="text" name="name" [(ngModel)]="user.name" class="form-control" placeholder="Ej: Ramiro Flores" required>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label small fw-bold">Correo Electrónico</label>
-            <input type="email" name="email" [(ngModel)]="user.email" class="form-control" placeholder="correo@ejemplo.com" required email>
+        <div class="flex flex-col gap-2">
+          <label class="text-[#0e182a] text-sm font-semibold ml-1">Nombre Completo</label>
+          <div class="relative flex items-center group">
+            <div class="absolute left-4 text-slate-400 group-focus-within:text-[#0e182a] transition-colors">
+              <span class="material-symbols-outlined text-[20px]">person</span>
+            </div>
+            <input class="w-full h-12 pl-12 pr-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] transition-all text-sm"
+                   placeholder="Ramiro Flores Mendoza" type="text" name="name" [(ngModel)]="user.name" required minlength="3" #uName="ngModel">
           </div>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label small fw-bold text-secondary">Foto de Perfil</label>
-          <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Correo electrónico</label>
+            <input class="w-full h-12 px-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] text-sm"
+                   placeholder="ejemplo@empresa.com" type="email" name="email" [(ngModel)]="user.email" required email #mail="ngModel">
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Confirmar Correo</label>
+            <input class="w-full h-12 px-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] text-sm"
+                   [class.border-red-400]="confirmEmail !== user.email && confirmEmail !== ''"
+                   placeholder="ejemplo@empresa.com" type="email" name="cEmail" [(ngModel)]="confirmEmail">
+          </div>
         </div>
 
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label class="form-label small fw-bold">Ciudad (Sinaloa)</label>
-            <select name="city" [(ngModel)]="user.city" class="form-select" required>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Foto de perfil</label>
+            <input class="w-full py-[7px] px-3 bg-white border border-slate-200 rounded-lg text-slate-500 text-sm file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#0e182a]/5 file:text-[#0e182a] hover:file:bg-[#0e182a]/10"
+                   type="file" (change)="onFileSelected($event)" accept="image/*">
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Teléfono (10 dígitos)</label>
+            <input class="w-full h-12 px-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] text-sm"
+                   placeholder="6681234567" type="text" name="phone" [(ngModel)]="user.phone" required pattern="[0-9]{10}" maxlength="10">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Ciudad (Sinaloa)</label>
+            <select name="city" [(ngModel)]="user.city" class="w-full h-12 px-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] text-sm appearance-none">
               <option value="Los Mochis">Los Mochis</option>
               <option value="Culiacán">Culiacán</option>
               <option value="Mazatlán">Mazatlán</option>
               <option value="Guasave">Guasave</option>
             </select>
           </div>
-          <div class="col-md-6">
-            <label class="form-label small fw-bold">Rol en el Sistema</label>
-            <select name="role" [(ngModel)]="user.role" class="form-select" required>
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Rol en el Sistema</label>
+            <select name="role" [(ngModel)]="user.role" class="w-full h-12 px-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] text-sm appearance-none">
               <option value="ADMIN">Administrador</option>
               <option value="DEVELOPER">Desarrollador</option>
               <option value="MANAGER">Gerente</option>
@@ -42,28 +80,39 @@
           </div>
         </div>
 
-        <div class="row mb-4">
-          <div class="col-md-6">
-            <label class="form-label small fw-bold">Teléfono</label>
-            <input type="tel" name="phone" [(ngModel)]="user.phone" class="form-control" 
-                   pattern="[0-9]{10}" placeholder="6681234567" required #tel="ngModel">
-            <div *ngIf="tel.invalid && tel.touched" class="text-danger small">10 dígitos necesarios.</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pb-2">
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Contraseña</label>
+            <input class="w-full h-12 px-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] text-sm"
+                   placeholder="••••••••" type="password" name="password" [(ngModel)]="user.password" required minlength="6">
           </div>
-          <div class="col-md-6">
-            <label class="form-label small fw-bold">Contraseña</label>
-            <input type="password" name="password" [(ngModel)]="user.password" class="form-control" 
-                   placeholder="********" required minlength="6">
+          <div class="flex flex-col gap-2">
+            <label class="text-[#0e182a] text-sm font-semibold ml-1">Confirmar Contraseña</label>
+            <input class="w-full h-12 px-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] text-sm"
+                   [class.border-red-400]="confirmPass !== user.password && confirmPass !== ''"
+                   placeholder="••••••••" type="password" name="cPass" [(ngModel)]="confirmPass">
           </div>
         </div>
 
-        <button type="submit" [disabled]="regForm.invalid" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">
-          CREAR CUENTA Y EMPEZAR
+        <button [disabled]="regForm.invalid || user.email !== confirmEmail || user.password !== confirmPass" 
+                class="w-full h-12 bg-[#0e182a] hover:bg-[#0e182a]/90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] text-white font-semibold rounded-lg shadow-md transition-all flex items-center justify-center gap-2" 
+                type="submit">
+          <span>Crear cuenta y empezar</span>
+          <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
         </button>
-
-        <div class="text-center mt-3">
-          <a routerLink="/login" class="text-decoration-none small text-muted">¿Ya tienes cuenta? Inicia sesión</a>
-        </div>
       </form>
+    </div>
+
+    <p class="mt-8 text-sm text-slate-500">
+      ¿Ya tienes cuenta? 
+      <a routerLink="/login" class="text-[#0e182a] font-semibold hover:underline underline-offset-4 ml-1 cursor-pointer">
+        Inicia sesión aquí
+      </a>
+    </p>
+
+    <div class="mt-8 flex items-center gap-2 text-slate-400">
+      <span class="material-symbols-outlined text-sm">lock_person</span>
+      <span class="text-[10px] font-medium tracking-widest uppercase">Tus datos están protegidos bajo encriptación SSL</span>
     </div>
   </div>
 </div>

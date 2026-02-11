@@ -1,32 +1,85 @@
-<div class="login-container d-flex align-items-center justify-content-center">
-  <div class="card login-card shadow-lg animate__animated animate__fadeIn">
-    <div class="card-body p-5">
-      <div class="text-center mb-4">
-        <i class="bi bi-person-circle display-1 text-primary"></i>
-        <h2 class="fw-bold mt-2">Bienvenido</h2>
+<div class="bg-mesh min-h-screen flex items-center justify-center p-4 font-['Inter']">
+  <div class="w-full max-w-[440px] flex flex-col items-center animate__animated animate__fadeIn">
+    
+    <div class="mb-6 flex flex-col items-center">
+      <h1 class="text-[#0e182a] text-2xl font-bold tracking-tight uppercase">ERP SYSTEM</h1>
+    </div>
+
+    <div class="w-full bg-white border border-[#0e182a]/10 rounded-xl shadow-xl p-6 md:p-8">
+      <div class="text-center mb-8">
+        <h2 class="text-[#0e182a] text-2xl font-bold leading-tight">Bienvenido de nuevo</h2>
+        <p class="text-slate-500 text-sm mt-2">Ingresa tus credenciales para acceder al sistema</p>
       </div>
 
-      <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
-        <div class="mb-3">
-          <label class="form-label">Correo Electrónico</label>
-          <input type="email" [(ngModel)]="loginData.email" name="email" class="form-control" required email #email="ngModel">
-          <div *ngIf="email.invalid && email.touched" class="text-danger small">Correo inválido.</div>
+      <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" class="space-y-5">
+        
+        <div class="flex flex-col gap-2">
+          <label class="text-[#0e182a] text-sm font-semibold ml-1">Correo electrónico</label>
+          <div class="relative flex items-center group">
+            <div class="absolute left-4 text-slate-400 group-focus-within:text-[#0e182a] transition-colors">
+              <span class="material-symbols-outlined text-[20px]">mail</span>
+            </div>
+            <input 
+              class="w-full h-12 pl-12 pr-4 bg-white border border-slate-200 rounded-lg text-[#0e182a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] transition-all text-sm"
+              [class.border-red-500]="email.invalid && email.touched"
+              placeholder="ejemplo@empresa.com" 
+              type="email"
+              [(ngModel)]="loginData.email" 
+              name="email" 
+              required 
+              email 
+              #email="ngModel"/>
+          </div>
+          <p *ngIf="email.invalid && email.touched" class="text-red-500 text-[11px] ml-1">Correo inválido.</p>
         </div>
 
-        <div class="mb-4">
-          <label class="form-label">Contraseña</label>
-          <input type="password" [(ngModel)]="loginData.password" name="password" class="form-control" required minlength="6" #pass="ngModel">
-          <div *ngIf="pass.invalid && pass.touched" class="text-danger small">Mínimo 6 caracteres.</div>
+        <div class="flex flex-col gap-2">
+          <label class="text-[#0e182a] text-sm font-semibold ml-1">Contraseña</label>
+          <div class="relative flex items-center group">
+            <div class="absolute left-4 text-slate-400 group-focus-within:text-[#0e182a] transition-colors">
+              <span class="material-symbols-outlined text-[20px]">lock</span>
+            </div>
+            <input 
+              class="w-full h-12 pl-12 pr-12 bg-white border border-slate-200 rounded-lg text-[#0e182a] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0e182a]/10 focus:border-[#0e182a] transition-all text-sm"
+              [class.border-red-500]="pass.invalid && pass.touched"
+              placeholder="••••••••" 
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="loginData.password" 
+              name="password" 
+              required 
+              minlength="6" 
+              #pass="ngModel"/>
+            <button 
+              (click)="togglePassword()"
+              class="absolute right-4 text-slate-400 hover:text-[#0e182a] transition-colors" 
+              type="button">
+              <span class="material-symbols-outlined text-[20px]">{{ showPassword ? 'visibility_off' : 'visibility' }}</span>
+            </button>
+          </div>
+          <p *ngIf="pass.invalid && pass.touched" class="text-red-500 text-[11px] ml-1">Mínimo 6 caracteres.</p>
         </div>
 
-        <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary w-100 btn-lg btn-login transition-all">
-          Iniciar Sesión
+        <button 
+          [disabled]="loginForm.invalid"
+          class="w-full h-12 bg-[#0e182a] hover:bg-[#0e182a]/90 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] text-white font-semibold rounded-lg shadow-md transition-all flex items-center justify-center gap-2" 
+          type="submit">
+          <span>Iniciar Sesión</span>
+          <span class="material-symbols-outlined text-[20px]">login</span>
         </button>
       </form>
 
-      <div class="mt-3 text-center">
-        <p class="small">¿No tienes cuenta? <a routerLink="/register" class="fw-bold">Regístrate aquí</a></p>
-      </div>
+    </div>
+
+    <p class="mt-8 text-sm text-slate-500">
+      ¿No tienes cuenta? 
+      <a routerLink="/register" class="text-[#0e182a] font-semibold hover:underline underline-offset-4 ml-1 cursor-pointer">
+        Regístrate aquí
+      </a>
+    </p>
+
+    <div class="mt-8 flex items-center gap-2 text-slate-400">
+      <span class="material-symbols-outlined text-sm">lock_person</span>
+      <span class="text-[10px] font-medium tracking-widest uppercase">Tus datos están protegidos bajo encriptación SSL</span>
     </div>
   </div>
 </div>

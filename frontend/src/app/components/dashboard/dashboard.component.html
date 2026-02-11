@@ -1,63 +1,139 @@
-<div class="d-flex" id="wrapper">
-  <aside class="bg-dark text-white p-3 d-none d-md-block" style="min-width: 240px; min-height: 100vh;">
-    <h4 class="fw-bold mb-4 px-2">ERP SYSTEM</h4>
-    <nav class="nav flex-column gap-2">
-      <a class="nav-link text-white bg-primary rounded shadow-sm"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
-      <a class="nav-link text-secondary"><i class="bi bi-folder me-2"></i> Proyectos</a>
-      <a class="nav-link text-secondary"><i class="bi bi-person-gear me-2"></i> Usuarios</a>
+<div class="flex min-h-screen bg-[#f8fafc] font-['Inter'] relative">
+  
+  <aside [ngClass]="isSidebarCollapsed ? 'w-20' : 'w-64'" 
+         class="bg-[#0e182a] text-white flex flex-col shadow-xl transition-all duration-300 ease-in-out hidden md:flex sticky top-0 h-screen z-40">
+    
+    <div class="p-6 border-b border-white/10 flex items-center justify-between">
+      <h4 *ngIf="!isSidebarCollapsed" class="text-xl font-bold tracking-tight animate__animated animate__fadeIn">
+        ERP <span class="text-blue-400">SYSTEM</span>
+      </h4>
+      <button (click)="toggleSidebar()" class="text-white hover:text-blue-400 transition-colors mx-auto focus:outline-none">
+        <span class="material-symbols-outlined">{{ isSidebarCollapsed ? 'menu' : 'menu_open' }}</span>
+      </button>
+    </div>
+    
+    <nav class="flex-1 p-4 space-y-4">
+      <a class="flex items-center p-3 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-900/20 transition-all cursor-pointer"
+         [ngClass]="isSidebarCollapsed ? 'justify-center' : 'gap-3'">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span *ngIf="!isSidebarCollapsed" class="font-medium animate__animated animate__fadeIn">Dashboard</span>
+      </a>
+
+      <a class="flex items-center p-3 text-slate-400 hover:bg-white/5 hover:text-white rounded-lg transition-all cursor-pointer"
+         [ngClass]="isSidebarCollapsed ? 'justify-center' : 'gap-3'">
+        <span class="material-symbols-outlined">folder_open</span>
+        <span *ngIf="!isSidebarCollapsed" class="font-medium animate__animated animate__fadeIn">Proyectos</span>
+      </a>
+
+      <a class="flex items-center p-3 text-slate-400 hover:bg-white/5 hover:text-white rounded-lg transition-all cursor-pointer"
+         [ngClass]="isSidebarCollapsed ? 'justify-center' : 'gap-3'">
+        <span class="material-symbols-outlined">group</span>
+        <span *ngIf="!isSidebarCollapsed" class="font-medium animate__animated animate__fadeIn">Usuarios</span>
+      </a>
     </nav>
+
+    <div class="p-4 border-t border-white/10">
+      <button (click)="logout()" class="flex items-center p-3 text-red-400 hover:bg-red-500/10 rounded-lg transition-all w-full"
+              [ngClass]="isSidebarCollapsed ? 'justify-center' : 'gap-3'">
+        <span class="material-symbols-outlined">logout</span>
+        <span *ngIf="!isSidebarCollapsed" class="font-medium animate__animated animate__fadeIn">Cerrar Sesión</span>
+      </button>
+    </div>
   </aside>
 
-  <main class="flex-grow-1 bg-light">
-    <nav class="navbar navbar-expand navbar-white bg-white shadow-sm px-4 py-2">
-      <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
-        <span class="navbar-brand d-md-none fw-bold text-primary">ERP</span>
+  <main class="flex-1 flex flex-col min-w-0 overflow-x-hidden">
+    <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-8 shadow-sm sticky top-0 z-30">
+      <div class="flex items-center gap-4 md:hidden">
+        <span class="material-symbols-outlined text-[#0e182a]">menu</span>
+        <span class="font-bold text-[#0e182a]">ERP</span>
+      </div>
+
+      <div class="flex items-center gap-4 ml-auto">
+        <div class="text-right hidden sm:block">
+          <p class="text-sm font-bold text-[#0e182a] leading-tight">{{ userName }}</p>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{{ userRole }}</span>
+        </div>
+        <img [src]="getFullAvatarPath()" class="w-11 h-11 rounded-full border-2 border-white shadow-md object-cover">
+      </div>
+    </header>
+
+    <div class="p-8">
+      <div class="max-w-7xl mx-auto">
         
-        <div class="ms-auto d-flex align-items-center">
-          <div class="text-end me-3 d-none d-sm-block">
-            <div class="fw-bold text-dark lh-1">{{ userName }}</div>
-            <span class="badge bg-info text-dark mt-1" style="font-size: 0.7rem;">{{ userRole }}</span>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <div>
+            <h2 class="text-2xl font-bold text-[#0e182a]">Panel de Control</h2>
+            <p class="text-slate-500 text-sm">Resumen global de tus operaciones.</p>
           </div>
-          <div class="position-relative">
-            <img [src]="getFullAvatarPath()" class="rounded-circle border border-2 shadow-sm" 
-                 style="width: 42px; height: 42px; object-fit: cover;">
-          </div>
-          <button (click)="logout()" class="btn btn-link text-danger ms-2 p-0">
-            <i class="bi bi-power fs-4"></i>
+          <button (click)="toggleModal()" class="bg-[#0e182a] hover:bg-[#1e293b] text-white px-5 py-2.5 rounded-lg font-semibold flex items-center gap-2 shadow-lg transition-all active:scale-95">
+            <span class="material-symbols-outlined text-sm">add</span>
+            Nuevo Proyecto
           </button>
         </div>
-      </div>
-    </nav>
 
-    <div class="container-fluid p-4">
-      <div class="card shadow-sm border-0 rounded-3">
-        <div class="card-header bg-white border-bottom py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
-          <h5 class="mb-0 fw-bold text-primary">Catálogo de Proyectos Activos</h5>
-          <button class="btn btn-success btn-sm px-3">+ Nuevo Proyecto</button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined">inventory_2</span>
+            </div>
+            <div>
+              <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Proyectos</p>
+              <h3 class="text-2xl font-bold text-[#0e182a]">{{ projects.length }}</h3>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined">checklist</span>
+            </div>
+            <div>
+              <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Pendientes</p>
+              <h3 class="text-2xl font-bold text-[#0e182a]">{{ totalRequirements }}</h3>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-red-50 text-red-600 rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined">priority_high</span>
+            </div>
+            <div>
+              <p class="text-slate-500 text-xs font-bold uppercase tracking-wider">Críticos</p>
+              <h3 class="text-2xl font-bold text-[#0e182a]">{{ highPriorityPercentage }}%</h3>
+            </div>
+          </div>
         </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead class="bg-light text-secondary">
-                <tr>
-                  <th class="px-4">Nombre del Proyecto</th>
-                  <th>Ubicación</th>
-                  <th>Prioridad</th>
-                  <th>Dueño</th>
-                  <th class="text-center">Acciones</th>
+
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+            <h5 class="font-bold text-[#0e182a]">Catálogo de Proyectos Activos</h5>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/50 border-b border-slate-200 text-slate-500 text-[11px] uppercase tracking-widest font-bold">
+                  <th class="px-6 py-4">Proyecto</th>
+                  <th class="px-6 py-4">Ubicación</th>
+                  <th class="px-6 py-4">Prioridad</th>
+                  <th class="px-6 py-4 text-center">Acciones</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td class="px-4">
-                    <div class="fw-bold text-dark">Módulo de Inventarios</div>
-                    <div class="text-muted small">Desarrollo de API principal</div>
+              <tbody class="divide-y divide-slate-100 text-sm">
+                <tr *ngFor="let project of projects" class="hover:bg-slate-50/50 transition-colors">
+                  <td class="px-6 py-5">
+                    <div class="font-bold text-[#0e182a]">{{ project.name }}</div>
+                    <div class="text-slate-400 text-xs">{{ project.description }}</div>
                   </td>
-                  <td><span class="badge rounded-pill bg-primary px-3">{{ userCity }}</span></td>
-                  <td><span class="badge bg-danger-subtle text-danger border border-danger">ALTA</span></td>
-                  <td>{{ userName }}</td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-light text-primary border"><i class="bi bi-pencil-square"></i></button>
+                  <td class="px-6 py-5">
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-[11px] font-bold">{{ userCity }}</span>
+                  </td>
+                  <td class="px-6 py-5">
+                    <span class="px-2 py-1 rounded-md text-[10px] font-bold border"
+                          [ngClass]="project.priority === 'HIGH' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-emerald-50 text-emerald-600 border-emerald-100'">
+                      {{ project.priority }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-5 text-center">
+                    <button class="text-slate-400 hover:text-blue-600 p-2 rounded-lg transition-colors">
+                      <span class="material-symbols-outlined">edit_square</span>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -67,4 +143,37 @@
       </div>
     </div>
   </main>
+</div>
+
+<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0e182a]/60 backdrop-blur-sm animate__animated animate__fadeIn">
+  <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8 transform animate__animated animate__zoomIn">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-[#0e182a]">Nuevo Proyecto</h3>
+      <button (click)="toggleModal()" class="text-slate-400 hover:text-red-500 transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <form (ngSubmit)="saveProject()" class="space-y-4">
+      <div>
+        <label class="block text-sm font-bold text-[#0e182a] mb-2">Nombre</label>
+        <input type="text" [(ngModel)]="newProject.name" name="name" class="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm" required>
+      </div>
+      <div>
+        <label class="block text-sm font-bold text-[#0e182a] mb-2">Descripción</label>
+        <textarea [(ngModel)]="newProject.description" name="description" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm h-24" required></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-bold text-[#0e182a] mb-2">Prioridad</label>
+        <select [(ngModel)]="newProject.priority" name="priority" class="w-full h-12 px-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm">
+          <option value="LOW">Baja</option>
+          <option value="MEDIUM">Media</option>
+          <option value="HIGH">Alta</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg shadow-blue-500/30 transition-all active:scale-95 mt-4">
+        Guardar en Base de Datos
+      </button>
+    </form>
+  </div>
 </div>
